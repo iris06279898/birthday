@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <title>魔法生日解謎之旅</title>
+  <style>
+    body {
+      font-family: 'Georgia', serif;
+      background: url('https://images.unsplash.com/photo-1579547621706-1a9c79d5ffa4') no-repeat center center fixed;
+      background-size: cover;
+      color: #f5deb3;
+      text-align: center;
+      padding: 20px;
+    }
+    #game, #puzzle, #final, #cards { display: none; }
+    button {
+      background-color: #4b2e2e;
+      color: #f5deb3;
+      border: 2px solid #d4af37;
+      padding: 10px 20px;
+      font-size: 16px;
+      margin-top: 10px;
+      cursor: pointer;
+    }
+    button:hover { background-color: #321818; }
+    input {
+      padding: 8px;
+      font-size: 16px;
+      margin: 10px;
+      background-color: #fff8dc;
+      border: 2px solid #d4af37;
+      color: #000;
+    }
+    h1, h2 { font-family: 'Cinzel Decorative', cursive; }
+  </style>
+</head>
+<body>
+
+<div id="main">
+  <h1>🪄 魔法學院生日解謎之旅 🪄</h1>
+  <p>揭開魔法之謎，為00送上最神秘的祝福！</p>
+  <button onclick="startGame()">開始挑戰</button>
+</div>
+
+<div id="game">
+  <h2>第 <span id="currentPuzzle"></span> 題</h2>
+  <p id="puzzleQuestion"></p>
+  <input type="text" id="answerInput" placeholder="輸入你的答案">
+  <br>
+  <button onclick="submitAnswer()">提交答案</button>
+</div>
+
+<div id="final">
+  <h2>🎁 你已集齊魔法數字！</h2>
+  <p>請輸入對應的小卡字，組成祝福語：</p>
+  <input type="text" id="finalAnswer" placeholder="輸入七個字">
+  <br>
+  <button onclick="checkFinalAnswer()">確認答案</button>
+</div>
+
+<div id="cards">
+  <h2>🎉 恭喜解鎖魔法小卡祝福！🎉</h2>
+  <p>魔法祝福卡內容：</p>
+  <ul id="cardsList">
+    <li>⚡ 朋友A：願你擁有榮耀與智慧！</li>
+    <li>⚡ 朋友B：魔法之路永遠順利！</li>
+    <li>⚡ 朋友C：每日都有神奇冒險！</li>
+    <li>⚡ 朋友D：友情與勇氣同在！</li>
+    <li>⚡ 朋友E：魔法生物伴你同行！</li>
+    <li>⚡ 朋友F：夢想成真，星辰為伴！</li>
+    <li>⚡ 朋友G：萬事如意，光明指引！</li>
+  </ul>
+</div>
+
+<script>
+// 哈利波特小謎題設定
+const puzzles = [
+  { question: "破心咒的咒語是？（提示：開頭是C）", answer: "Crucio", number: "17" },
+  { question: "哈利的魔杖木材是什麼？（兩字）", answer: "冬青", number: "23" },
+  { question: "鄧不利多的鳳凰名字是？", answer: "福克斯", number: "46" },
+  { question: "海格養過的小龍名字是？", answer: "諾伯", number: "02" },
+  { question: "魔法學院四大學院之一（蛇的象徵）？", answer: "史萊哲林", number: "12" },
+  { question: "魁地奇比賽中得分最多的是哪種球？（中文兩字）", answer: "金探子", number: "33" },
+  { question: "魔法部的最高領導職位叫？", answer: "部長", number: "09" }
+];
+
+let currentPuzzleIndex = 0;
+let collectedNumbers = [];
+
+function startGame() {
+  document.getElementById('main').style.display = 'none';
+  document.getElementById('game').style.display = 'block';
+  showPuzzle();
+}
+
+function showPuzzle() {
+  document.getElementById('currentPuzzle').innerText = currentPuzzleIndex + 1;
+  document.getElementById('puzzleQuestion').innerText = puzzles[currentPuzzleIndex].question;
+}
+
+function submitAnswer() {
+  const userAnswer = document.getElementById('answerInput').value.trim();
+  if (userAnswer.toLowerCase() === puzzles[currentPuzzleIndex].answer.toLowerCase()) {
+    alert(`答對了！請記下魔法數字：${puzzles[currentPuzzleIndex].number}`);
+    collectedNumbers.push(puzzles[currentPuzzleIndex].number);
+    currentPuzzleIndex++;
+    document.getElementById('answerInput').value = '';
+    if (currentPuzzleIndex < puzzles.length) {
+      showPuzzle();
+    } else {
+      document.getElementById('game').style.display = 'none';
+      document.getElementById('final').style.display = 'block';
+    }
+  } else {
+    alert("答錯了喔，試試別的答案！");
+  }
+}
+
+function checkFinalAnswer() {
+  const finalInput = document.getElementById('finalAnswer').value.trim();
+  const correctPhrase = "祝00生日快樂"; // 這是你要玩家拼出來的最終答案
+
+  if (finalInput === correctPhrase) {
+    document.getElementById('final').style.display = 'none';
+    document.getElementById('cards').style.display = 'block';
+  } else {
+    alert("咒語不對，再試一次！");
+  }
+}
+</script>
+
+</body>
+</html>
